@@ -1,6 +1,10 @@
 {
-  "name": "svelte-app",
-  "version": "1.0.0",
+  "name": "sweather",
+  "version": "0.1.0",
+  "description": "Quick weather lookup tool build with Svelte!",
+  "author": "Alexandre Charoy <alexandre.charoy@gmail.com>",
+  "license": "Apache-2.0",
+  "private": true,
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
@@ -17,5 +21,14 @@
   },
   "dependencies": {
     "sirv-cli": "^0.4.4"
-  }
+  },
+  "keywords": [
+    "weather",
+    "svelte",
+    "sveltejs"
+  ],
+  "bugs": {
+    "url": "https://github.com/alex-c/sweather/issues"
+  },
+  "homepage": "https://github.com/alex-c/sweather#readme"
 }
