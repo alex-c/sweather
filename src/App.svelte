@@ -3,7 +3,7 @@
   import Select from "svelte-select";
 
   let cities = [];
-  let city = "";
+  let selectedCity = "";
 
   function searchCities(search) {
     return new Promise((resolve, reject) => {
@@ -19,7 +19,7 @@
     const response = await fetch(
       `https://api.weatherbit.io/v2.0/current?key=d61b050238b54f99ab1f0b90194387ea&city=${city}`
     );
-    const data = await response.json();
+    return await response.json();
   }
 
   onMount(async () => {
@@ -33,8 +33,10 @@
   const getOptionLabel = option => option.label;
   const getSelectionLabel = option => option.label;
 
-  function handleSelect(selection) {
-    city = selection.detail.label;
+  async function handleSelect(selection) {
+    selectedCity = selection.detail.label;
+    const response = await callApi(selectedCity);
+    console.log(response.data[0]);
   }
 
   function handleClear() {
@@ -44,15 +46,17 @@
 
 <main>
   <h1>Sweather</h1>
-  <Select
-    loadOptions="{searchCities}"
-    placeholder="Enter a city name..."
-    {getOptionLabel}
-    {getSelectionLabel}
-    on:select="{handleSelect}"
-    on:clear="{handleClear}"
-  ></Select>
-  <div>{city}</div>
+  <div id="city-search-box">
+    <Select
+      loadOptions="{searchCities}"
+      placeholder="Enter a city name..."
+      {getOptionLabel}
+      {getSelectionLabel}
+      on:select="{handleSelect}"
+      on:clear="{handleClear}"
+    ></Select>
+  </div>
+  <div id="weather-container"></div>
 </main>
 
 <style>
@@ -73,5 +77,9 @@
     text-transform: uppercase;
     font-size: 4em;
     font-weight: 100;
+  }
+
+  #city-search-box {
+    text-align: left;
   }
 </style>
