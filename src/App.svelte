@@ -4,7 +4,13 @@
 
   let cities = [];
   let selectedCity = "";
+  let weather = undefined;
 
+  // Helpers for select form
+  const getOptionLabel = option => option.label;
+  const getSelectionLabel = option => option.label;
+
+  // Triggers a city search based on input text
   function searchCities(search) {
     return new Promise((resolve, reject) => {
       setTimeout(function() {
@@ -15,6 +21,7 @@
     });
   }
 
+  // Calls API: get current weather for selected city
   async function callApi(city) {
     const response = await fetch(
       `https://api.weatherbit.io/v2.0/current?key=d61b050238b54f99ab1f0b90194387ea&city=${city}`
@@ -22,26 +29,30 @@
     return await response.json();
   }
 
-  onMount(async () => {
-    const response = await fetch("./cities.json");
-    const data = await response.json();
-    cities = data.map(city => {
-      return { value: city.city_name.toLowerCase(), label: city.city_name };
-    });
-  });
-
-  const getOptionLabel = option => option.label;
-  const getSelectionLabel = option => option.label;
-
+  // City selection - triggers search
   async function handleSelect(selection) {
     selectedCity = selection.detail.label;
     const response = await callApi(selectedCity);
     console.log(response.data[0]);
+    weather = response.data[0];
   }
 
+  // Clear city input field
   function handleClear() {
-    city = "";
+    selectedCity = "";
   }
+
+  // Load available cities from JSON on component mount
+  onMount(async () => {
+    const response = await fetch("./cities.json");
+    const data = await response.json();
+    cities = data.map(city => {
+      return {
+        value: city.city_name.toLowerCase(),
+        label: city.city_name + ", " + city.country_code
+      };
+    });
+  });
 </script>
 
 <main>
@@ -56,7 +67,12 @@
       on:clear="{handleClear}"
     ></Select>
   </div>
-  <div id="weather-container"></div>
+  {#if weather != undefined}
+  <div id="weather-container">
+    <img src="../icons/{weather.weather.icon}.png" alt="" /><br />
+    {weather.weather.description}
+  </div>
+  {/if}
 </main>
 
 <style>
@@ -81,5 +97,6 @@
 
   #city-search-box {
     text-align: left;
+    margin-bottom: 20px;
   }
 </style>
