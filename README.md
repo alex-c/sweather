@@ -1,6 +1,6 @@
 # sweather
 
-Quick weather lookup tool build with Svelte!
+Quick weather lookup tool build with Svelte! Sweather uses the [Weatherbit](https://www.weatherbit.io/) API and icons.
 
 ## NPM Scripts
 
