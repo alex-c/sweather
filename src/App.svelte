@@ -5,6 +5,7 @@
   let cities = [];
   let selectedCity = "";
   let weather = undefined;
+  let forecast = undefined;
 
   // Helpers for select form
   const getOptionLabel = option => option.label;
@@ -22,19 +23,34 @@
   }
 
   // Calls API: get current weather for selected city
-  async function callApi(city) {
+  async function callApiGetCurrentWeather(city) {
     const response = await fetch(
       `https://api.weatherbit.io/v2.0/current?key=d61b050238b54f99ab1f0b90194387ea&city=${city}`
     );
     return await response.json();
   }
 
+  // Calls API: get forecast for selected city
+  async function callApiGetForecast(city) {
+    const response = await fetch(
+      `https://api.weatherbit.io/v2.0/forecast/daily?key=d61b050238b54f99ab1f0b90194387ea&city=${city}&days=5`
+    );
+    return await response.json();
+  }
+
   // City selection - triggers search
   async function handleSelect(selection) {
-    selectedCity = selection.detail.label;
-    const response = await callApi(selectedCity);
-    console.log(response.data[0]);
-    weather = response.data[0];
+    selectedCity = selection.detail.value;
+
+    // Get current weather data
+    const responseCurrentWeather = await callApiGetCurrentWeather(selectedCity);
+    console.log(responseCurrentWeather.data[0]);
+    weather = responseCurrentWeather.data[0];
+
+    // Get forecast data
+    const responseForecast = await callApiGetForecast(selectedCity);
+    console.log(responseForecast.data);
+    forecast = responseForecast.data;
   }
 
   // Clear city input field
@@ -48,7 +64,8 @@
     const data = await response.json();
     cities = data.map(city => {
       return {
-        value: city.city_name.toLowerCase(),
+        value:
+          city.city_name.toLowerCase() + "," + city.country_code.toLowerCase(),
         label: city.city_name + ", " + city.country_code
       };
     });
@@ -69,8 +86,23 @@
   </div>
   {#if weather != undefined}
   <div id="weather-container">
-    <img src="../icons/{weather.weather.icon}.png" alt="" /><br />
+    <img
+      src="../icons/{weather.weather.icon}.png"
+      alt="current weather icon"
+    /><br />
     {weather.weather.description}
+    <div id="forecast">
+      {#if forecast != undefined} Forecast:<br />
+      {#each forecast as day}
+      <div class="forecast-day">
+        <img
+          src="../icons/{day.weather.icon}.png"
+          alt="forecast weather icon"
+        /><br />
+        {day.weather.description}
+      </div>
+      {/each} {/if}
+    </div>
   </div>
   {/if}
 </main>
@@ -84,7 +116,7 @@
     margin: auto;
     padding: 1em;
     text-align: center;
-    max-width: 480px;
+    max-width: 500px;
     /*background-image: url("../bg.jpg");*/
   }
 
@@ -98,5 +130,25 @@
   #city-search-box {
     text-align: left;
     margin-bottom: 20px;
+  }
+
+  #forecast {
+    text-align: left;
+  }
+
+  .forecast-day {
+    float: left;
+    width: 92px;
+    margin-right: 8px;
+    text-align: center;
+  }
+
+  .forecast-day:last-child {
+    margin-right: 0px;
+  }
+
+  .forecast-day > img {
+    width: 60xp;
+    height: 60px;
   }
 </style>
