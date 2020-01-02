@@ -2,7 +2,7 @@
   export let day;
 </script>
 
-<div class="forecast-day">
+<div class="forecast-day box">
   {day.valid_date}<br />
   <img
     src="../icons/{day.weather.icon}.png"

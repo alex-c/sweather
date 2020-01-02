@@ -9,7 +9,7 @@
   }
 </script>
 
-<div id="weather">
+<div id="weather" class="box">
   <img src="../icons/{weather.weather.icon}.png" alt="current weather icon" />
   <p>
     <strong>{selectedCity.label}</strong><br />
@@ -23,7 +23,6 @@
   #weather {
     overflow: auto;
     background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 3px;
   }
 
   #weather > img {

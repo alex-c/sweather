@@ -71,7 +71,7 @@
   });
 </script>
 
-<main>
+<main class="box">
   <h1>Sweather</h1>
   <div id="city-search-box">
     <Select
@@ -105,6 +105,11 @@
     background-image: url("../bg.jpg");
   }
 
+  :global(.box) {
+    box-shadow: 0px 0px 5px grey;
+    border-radius: 3px;
+  }
+
   main {
     margin: auto;
     margin-top: 16px;
@@ -113,7 +118,6 @@
     text-align: center;
     max-width: 500px;
     background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 3px;
     overflow: auto;
   }
 
