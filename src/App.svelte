@@ -55,11 +55,6 @@
     forecast = responseForecast.data;
   }
 
-  // Clear city input field
-  function handleClear() {
-    selectedCity = undefined;
-  }
-
   // Round down a number to n decimal positions
   function roundDown(number, decimals) {
     decimals = decimals || 0;
@@ -89,7 +84,6 @@
       {getOptionLabel}
       {getSelectionLabel}
       on:select="{handleSelect}"
-      on:clear="{handleClear}"
     ></Select>
   </div>
   {#if weather != undefined}
@@ -99,14 +93,17 @@
         src="../icons/{weather.weather.icon}.png"
         alt="current weather icon"
       />
-      <strong>{selectedCity.label}</strong><br />
-      <span>Weather: {weather.weather.description}</span><br />
-      <span>Temperature: {weather.temp}°C</span><br />
-      <span>Wind: {roundDown(weather.wind_spd)} m/s, {weather.wind_cdir}</span>
+      <p>
+        <strong>{selectedCity.label}</strong><br />
+        <span>Weather: {weather.weather.description}</span><br />
+        <span>Temperature: {weather.temp}°C</span><br />
+        <span
+          >Wind: {roundDown(weather.wind_spd)} m/s, {weather.wind_cdir}</span
+        >
+      </p>
     </div>
     <div id="forecast">
-      {#if forecast != undefined} Forecast:<br />
-      {#each forecast as day}
+      {#if forecast != undefined} {#each forecast as day}
       <div class="forecast-day">
         {day.valid_date}<br />
         <img
@@ -120,26 +117,38 @@
   </div>
   {/if}
 </main>
+<a
+  id="attribution"
+  href="https://unsplash.com/photos/q8JdZX1jNDc"
+  target="_blank"
+>
+  Background image by Ahmad Bilal on Unplash
+</a>
 
 <style>
-  body {
-    margin: 0px;
+  :global(body) {
+    margin-top: 16px;
     text-align: center;
-    /*background-image: url("../bg.jpg");*/
+    background-image: url("../bg.jpg");
   }
 
   main {
     margin: auto;
     padding: 1em;
+    padding-top: 0em;
     text-align: center;
     max-width: 500px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 3px;
+    overflow: auto;
   }
 
   h1 {
-    color: #5555ff;
+    color: #ff003e;
     text-transform: uppercase;
     font-size: 4em;
     font-weight: 100;
+    text-shadow: 1px 1px 1px black;
   }
 
   #city-search-box {
@@ -153,6 +162,8 @@
 
   #weather {
     overflow: auto;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
   }
 
   #weather > img {
@@ -160,21 +171,25 @@
   }
 
   #forecast {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
 
   .forecast-day {
-    float: left;
-    width: 158px;
-    margin-right: 8px;
+    width: 160px;
+    margin-top: 8px;
+    background-color: rgba(255, 255, 255, 0.5);
     text-align: center;
-  }
-
-  .forecast-day:last-child {
-    margin-right: 0px;
   }
 
   .forecast-day > img {
     width: 60xp;
     height: 60px;
+  }
+
+  #attribution {
+    color: white;
+    text-shadow: 1px 1px 1px black;
   }
 </style>
