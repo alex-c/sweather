@@ -3,6 +3,7 @@
   import Select from "svelte-select";
   import Weather from "./Weather.svelte";
   import Forecast from "./Forecast.svelte";
+  import apiKey from "./apiKey";
 
   let cities = [];
   let selectedCity = undefined;
@@ -28,7 +29,7 @@
   // Calls API: get current weather for selected city
   async function callApiGetCurrentWeather(city) {
     const response = await fetch(
-      `https://api.weatherbit.io/v2.0/current?key=d61b050238b54f99ab1f0b90194387ea&city=${city}&lang=${language}`
+      `https://api.weatherbit.io/v2.0/current?key=${apiKey}&city=${city}&lang=${language}`
     );
     return await response.json();
   }
@@ -36,7 +37,7 @@
   // Calls API: get forecast for selected city
   async function callApiGetForecast(city) {
     const response = await fetch(
-      `https://api.weatherbit.io/v2.0/forecast/daily?key=d61b050238b54f99ab1f0b90194387ea&city=${city}&days=6&lang=${language}`
+      `https://api.weatherbit.io/v2.0/forecast/daily?key=${apiKey}&city=${city}&days=6&lang=${language}`
     );
     return await response.json();
   }
