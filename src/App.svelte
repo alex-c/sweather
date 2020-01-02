@@ -122,7 +122,7 @@
   href="https://unsplash.com/photos/q8JdZX1jNDc"
   target="_blank"
 >
-  Background image by Ahmad Bilal on Unplash
+  Background image by Ahmad Bilal on Unsplash
 </a>
 
 <style>
