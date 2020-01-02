@@ -1,6 +1,8 @@
 <script>
   import { onMount } from "svelte";
   import Select from "svelte-select";
+  import Weather from "./Weather.svelte";
+  import Forecast from "./Forecast.svelte";
 
   let cities = [];
   let selectedCity = undefined;
@@ -55,12 +57,6 @@
     forecast = responseForecast.data;
   }
 
-  // Round down a number to n decimal positions
-  function roundDown(number, decimals) {
-    decimals = decimals || 0;
-    return Math.floor(number * Math.pow(10, decimals)) / Math.pow(10, decimals);
-  }
-
   // Load available cities from JSON on component mount
   onMount(async () => {
     const response = await fetch("./cities.json");
@@ -88,32 +84,10 @@
   </div>
   {#if weather != undefined}
   <div id="weather-container">
-    <div id="weather">
-      <img
-        src="../icons/{weather.weather.icon}.png"
-        alt="current weather icon"
-      />
-      <p>
-        <strong>{selectedCity.label}</strong><br />
-        <span>Weather: {weather.weather.description}</span><br />
-        <span>Temperature: {weather.temp}°C</span><br />
-        <span
-          >Wind: {roundDown(weather.wind_spd)} m/s, {weather.wind_cdir}</span
-        >
-      </p>
-    </div>
-    <div id="forecast">
-      {#if forecast != undefined} {#each forecast as day}
-      <div class="forecast-day">
-        {day.valid_date}<br />
-        <img
-          src="../icons/{day.weather.icon}.png"
-          alt="forecast weather icon"
-        /><br />
-        {day.weather.description}
-      </div>
-      {/each} {/if}
-    </div>
+    <Weather {weather} {selectedCity} />
+    {#if forecast != undefined}
+    <Forecast {forecast} />
+    {/if}
   </div>
   {/if}
 </main>
@@ -158,34 +132,6 @@
   #weather-container {
     margin-top: 16px;
     text-align: left;
-  }
-
-  #weather {
-    overflow: auto;
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 3px;
-  }
-
-  #weather > img {
-    float: left;
-  }
-
-  #forecast {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .forecast-day {
-    width: 160px;
-    margin-top: 8px;
-    background-color: rgba(255, 255, 255, 0.5);
-    text-align: center;
-  }
-
-  .forecast-day > img {
-    width: 60xp;
-    height: 60px;
   }
 
   #attribution {
