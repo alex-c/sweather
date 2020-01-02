@@ -101,13 +101,13 @@
 
 <style>
   :global(body) {
-    margin-top: 16px;
     text-align: center;
     background-image: url("../bg.jpg");
   }
 
   main {
     margin: auto;
+    margin-top: 16px;
     padding: 1em;
     padding-top: 0em;
     text-align: center;
