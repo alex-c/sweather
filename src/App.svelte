@@ -153,10 +153,10 @@
 
   #city-search-box {
     text-align: left;
-    margin-bottom: 20px;
   }
 
   #weather-container {
+    margin-top: 16px;
     text-align: left;
   }
 
