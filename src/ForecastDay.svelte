@@ -4,10 +4,7 @@
 
 <div class="forecast-day box">
   {day.valid_date}<br />
-  <img
-    src="../icons/{day.weather.icon}.png"
-    alt="forecast weather icon"
-  /><br />
+  <img src="./icons/{day.weather.icon}.png" alt="forecast weather icon" /><br />
   {day.weather.description}
 </div>
 

@@ -10,7 +10,7 @@
 </script>
 
 <div id="weather" class="box">
-  <img src="../icons/{weather.weather.icon}.png" alt="current weather icon" />
+  <img src="./icons/{weather.weather.icon}.png" alt="current weather icon" />
   <p>
     <strong>{selectedCity.label}</strong><br />
     <span>Weather: {weather.weather.description}</span><br />
